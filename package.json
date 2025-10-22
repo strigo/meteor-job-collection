@@ -1,0 +1,71 @@
+{
+  "name": "@strigo/meteor-job-collection",
+  "version": "2.0.0",
+  "description": "A persistent and reactive job queue for Meteor, supporting distributed workers that can run anywhere - modernized with TypeScript and async/await",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./job": {
+      "types": "./dist/job/job-class.d.ts",
+      "import": "./dist/job/job-class.js",
+      "require": "./dist/job/job-class.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "test": "meteor test-packages ./",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/strigo/meteor-job-collection.git"
+  },
+  "keywords": [
+    "meteor",
+    "job",
+    "queue",
+    "worker",
+    "scheduler",
+    "cron",
+    "background",
+    "async",
+    "typescript"
+  ],
+  "author": "Vaughn Iverson",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "peerDependencies": {
+    "meteor": "^3.0.0"
+  },
+  "dependencies": {
+    "@types/meteor": "^2.9.8",
+    "@types/node": "^22.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint": "^8.57.0"
+  },
+  "meteor": {
+    "mainModule": {
+      "client": "dist/client.js",
+      "server": "dist/server.js"
+    }
+  }
+}
+
