@@ -1,0 +1,23 @@
+# Meteor package build - ignore npm-specific files
+package.json
+package-lock.json
+node_modules/
+tsconfig.json
+.eslintrc.json
+
+# Documentation files not needed in published package
+PUBLISH.md
+INSTALL_FROM_GITHUB.md
+test/
+
+# Migration planning docs
+migration-plan/
+
+# Source files - only use compiled dist/
+src/
+
+# Git files
+.git/
+.gitignore
+.gitmodules
+
