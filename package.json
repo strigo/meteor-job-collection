@@ -51,11 +51,9 @@
   "peerDependencies": {
     "meteor": "^3.0.0"
   },
-  "dependencies": {
-    "@types/meteor": "^2.9.8",
-    "@types/node": "^22.0.0"
-  },
   "devDependencies": {
+    "@types/meteor": "^2.9.8",
+    "@types/node": "^22.0.0",
     "typescript": "^5.4.5",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",

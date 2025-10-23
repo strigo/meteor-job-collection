@@ -20,12 +20,11 @@ Package.onUse(function(api) {
   
   // Core dependencies - let Meteor resolve compatible versions
   api.use('mrt:later@1.6.1', ['server','client']);
-  api.use('typescript', ['server','client']);
   api.use('mongo', ['server','client']);
   api.use('check', ['server','client']);
   api.use('ecmascript', ['server','client']);
   
-  // Export main entry points
+  // Export main entry points (pre-compiled JavaScript, no TypeScript needed at runtime)
   api.mainModule('dist/index.js', 'server');
   api.mainModule('dist/index.js', 'client');
   
@@ -36,11 +35,11 @@ Package.onUse(function(api) {
 Package.onTest(function (api) {
   api.use('strigops:job-collection@' + currentVersion, ['server','client']);
   api.use('mrt:later@1.6.1', ['server','client']);
-  api.use('typescript', ['server','client']);
   api.use('check', ['server','client']);
   api.use('tinytest', ['server','client']);
   api.use('test-helpers', ['server','client']);
   api.use('ddp', 'client');
+  api.use('ecmascript', ['server','client']);
   
   // TODO: Convert test files to TypeScript
   // api.addFiles('test/job_collection_tests.ts', ['server', 'client']);
