@@ -18,12 +18,12 @@ if (!Function.prototype.bind) {
         return fBound;
     };
 }
-class JobCollection extends shared_1.JobCollectionBase {
+class JobCollectionClient extends shared_1.JobCollectionBase {
     logConsole = false;
     isSimulation = true;
     constructor(root = 'queue', options = {}) {
         if (!(new.target)) {
-            return new JobCollection(root, options);
+            return new JobCollectionClient(root, options);
         }
         super(root, options);
         this.logConsole = false;
@@ -46,11 +46,11 @@ class JobCollection extends shared_1.JobCollectionBase {
         }
     }
 }
-exports.JobCollection = JobCollection;
+exports.JobCollection = JobCollectionClient;
 if (typeof share !== 'undefined') {
-    share.JobCollection = JobCollection;
+    share.JobCollection = JobCollectionClient;
 }
-if (Meteor.isClient) {
-    global.JobCollection = JobCollection;
+if (typeof Meteor !== 'undefined' && Meteor.isClient) {
+    global.JobCollection = JobCollectionClient;
 }
 //# sourceMappingURL=client.js.map

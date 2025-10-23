@@ -5,7 +5,7 @@
 ###     See included LICENSE file for details.
 ***************************************************************************/
 
-const currentVersion = '2.0.3';
+const currentVersion = '2.0.4';
 
 Package.describe({
   summary: 'Persistent job queue for Meteor - TypeScript, async/await, Meteor 3.x',
@@ -24,9 +24,11 @@ Package.onUse(function(api) {
   api.use('check', ['server','client']);
   api.use('ecmascript', ['server','client']);
   
-  // Export main entry points (pre-compiled JavaScript, no TypeScript needed at runtime)
-  api.mainModule('dist/index.js', 'server');
-  api.mainModule('dist/index.js', 'client');
+  // Export platform-specific entry points
+  // Server gets server.js with server-only methods (setJobAllow, setJobDeny, etc.)
+  // Client gets client.js with client-only properties (logConsole)
+  api.mainModule('dist/server.js', 'server');
+  api.mainModule('dist/client.js', 'client');
   
   api.export('Job');
   api.export('JobCollection');

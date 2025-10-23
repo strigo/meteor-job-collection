@@ -30,7 +30,7 @@ A powerful and easy-to-use job queue for Meteor, supporting distributed workers 
 ```javascript
 // OLD (v1.x with Fibers)
 const job = myJobs.getJob(id);
-job.done();
+              job.done();
 
 // NEW (v2.x)
 const job = await myJobs.getJob(id);
@@ -488,24 +488,24 @@ console.log('Jobs:', {
 ## ⚡ Performance Tips
 
 1. **Use appropriate concurrency**
-   ```javascript
+```javascript
    myJobs.processJobs('type', { concurrency: 10 }, worker);
    ```
 
 2. **Batch operations**
-   ```javascript
+```javascript
    await myJobs.pauseJobs(manyIds);  // Better than loop
    ```
 
 3. **Add indexes** for custom queries
-   ```javascript
+```javascript
    await myJobs.createIndexAsync({ type: 1, created: -1 });
    ```
 
 4. **Clean up old jobs** regularly
 
 5. **Use prefetch** to reduce latency
-   ```javascript
+```javascript
    myJobs.processJobs('type', { prefetch: 5 }, worker);
    ```
 

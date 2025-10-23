@@ -35,14 +35,14 @@ if (!Function.prototype.bind) {
 /**
  * Client-side JobCollection class
  */
-export class JobCollection extends JobCollectionBase {
+class JobCollectionClient extends JobCollectionBase {
   logConsole = false;
   isSimulation = true;
 
   constructor(root: string = 'queue', options: any = {}) {
     // Support calling without new
     if (!(new.target)) {
-      return new JobCollection(root, options) as any;
+      return new JobCollectionClient(root, options) as any;
     }
 
     // Call super constructor
@@ -72,13 +72,16 @@ export class JobCollection extends JobCollectionBase {
   }
 }
 
+// Export with consistent name
+export { JobCollectionClient as JobCollection };
+
 // Share with the rest of the package
 if (typeof share !== 'undefined') {
-  share.JobCollection = JobCollection;
+  share.JobCollection = JobCollectionClient;
 }
 
-// Only export on client
-if (Meteor.isClient) {
-  (global as any).JobCollection = JobCollection;
+// Also set as global for backward compatibility
+if (typeof Meteor !== 'undefined' && Meteor.isClient) {
+  (global as any).JobCollection = JobCollectionClient;
 }
 

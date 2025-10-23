@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { JobCollectionBase } from './shared';
 import type { AllowDenyRules } from './types';
-export declare class JobCollection extends JobCollectionBase {
+declare class JobCollectionServer extends JobCollectionBase {
     events: EventEmitter;
     stopped: boolean | number;
     logStream: any;
@@ -28,4 +28,5 @@ export declare class JobCollection extends JobCollectionBase {
     _DDPMethod_getWork(type: any, options?: any): Promise<any>;
     _DDPMethod_jobReady(ids?: any, options?: any): Promise<boolean>;
 }
+export { JobCollectionServer as JobCollection };
 //# sourceMappingURL=server.d.ts.map

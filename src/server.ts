@@ -27,7 +27,7 @@ function userHelper(user: string | null | undefined, connection: any): string {
 /**
  * Server-side JobCollection class
  */
-export class JobCollection extends JobCollectionBase {
+class JobCollectionServer extends JobCollectionBase {
   events!: EventEmitter;
   stopped: boolean | number = true;
   logStream: any = null;
@@ -41,7 +41,7 @@ export class JobCollection extends JobCollectionBase {
   constructor(root: string = 'queue', options: any = {}) {
     // Support calling without new
     if (!(new.target)) {
-      return new JobCollection(root, options);
+      return new JobCollectionServer(root, options);
     }
 
     // Call super constructor
@@ -260,7 +260,7 @@ export class JobCollection extends JobCollectionBase {
     }
   }
 
-  // Register application allow rules - use different name to avoid conflict with Mongo.Collection.allow
+  // Register application allow rules
   setJobAllow(allowOptions: AllowDenyRules): void {
     for (const [type, func] of Object.entries(allowOptions)) {
       if (type in this.allows) {
@@ -269,7 +269,7 @@ export class JobCollection extends JobCollectionBase {
     }
   }
 
-  // Register application deny rules - use different name to avoid conflict with Mongo.Collection.deny
+  // Register application deny rules
   setJobDeny(denyOptions: AllowDenyRules): void {
     for (const [type, func] of Object.entries(denyOptions)) {
       if (type in this.denys) {
@@ -277,6 +277,7 @@ export class JobCollection extends JobCollectionBase {
       }
     }
   }
+
 
   // Hook function to sanitize documents before validating them in getWork() and getJob()
   declare scrubJobDoc?: (job: any) => any;
@@ -393,13 +394,16 @@ export class JobCollection extends JobCollectionBase {
   }
 }
 
+// Export with consistent name
+export { JobCollectionServer as JobCollection };
+
 // Share with the rest of the package
 if (typeof share !== 'undefined') {
-  share.JobCollection = JobCollection;
+  share.JobCollection = JobCollectionServer;
 }
 
-// Only export on server
-if (Meteor.isServer) {
-  (global as any).JobCollection = JobCollection;
+// Also set as global for backward compatibility
+if (typeof Meteor !== 'undefined' && Meteor.isServer) {
+  (global as any).JobCollection = JobCollectionServer;
 }
 

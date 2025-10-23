@@ -12,7 +12,7 @@ function userHelper(user, connection) {
     }
     return ret;
 }
-class JobCollection extends shared_1.JobCollectionBase {
+class JobCollectionServer extends shared_1.JobCollectionBase {
     events;
     stopped = true;
     logStream = null;
@@ -24,7 +24,7 @@ class JobCollection extends shared_1.JobCollectionBase {
     _ddp_apply;
     constructor(root = 'queue', options = {}) {
         if (!(new.target)) {
-            return new JobCollection(root, options);
+            return new JobCollectionServer(root, options);
         }
         super(root, options);
         this.events = new events_1.EventEmitter();
@@ -290,11 +290,11 @@ class JobCollection extends shared_1.JobCollectionBase {
         return super._DDPMethod_jobReady(ids, options);
     }
 }
-exports.JobCollection = JobCollection;
+exports.JobCollection = JobCollectionServer;
 if (typeof share !== 'undefined') {
-    share.JobCollection = JobCollection;
+    share.JobCollection = JobCollectionServer;
 }
-if (Meteor.isServer) {
-    global.JobCollection = JobCollection;
+if (typeof Meteor !== 'undefined' && Meteor.isServer) {
+    global.JobCollection = JobCollectionServer;
 }
 //# sourceMappingURL=server.js.map

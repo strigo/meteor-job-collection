@@ -1,7 +1,8 @@
 import { JobCollectionBase } from './shared';
-export declare class JobCollection extends JobCollectionBase {
+declare class JobCollectionClient extends JobCollectionBase {
     logConsole: boolean;
     isSimulation: boolean;
     constructor(root?: string, options?: any);
 }
+export { JobCollectionClient as JobCollection };
 //# sourceMappingURL=client.d.ts.map

@@ -13,8 +13,9 @@
 export { Job } from './job/job-class';
 export { JobQueue } from './job/job-queue';
 
-// Export JobCollection based on environment
-// Use dynamic import to handle server/client/node.js differences
+// Export the appropriate JobCollection based on environment
+// Meteor's build system will use the right mainModule (server.js or client.js)
+// For npm/Node.js, we export the base class
 export { JobCollectionBase as JobCollection } from './shared';
 
 // Export TypeScript types
