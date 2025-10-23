@@ -5,7 +5,7 @@
 Your modernized TypeScript fork is configured and ready to publish!
 
 **Package Names:**
-- Meteor: `strigo:job-collection`
+- Meteor: `strigops:job-collection`
 - npm: `@strigo/meteor-job-collection`
 - GitHub: https://github.com/strigo/meteor-job-collection
 
@@ -56,11 +56,11 @@ npm publish --access public
 
 ### Meteor App
 ```bash
-meteor add strigo:job-collection
+meteor add strigops:job-collection
 ```
 
 ```javascript
-import { Job, JobCollection } from 'meteor/strigo:job-collection';
+import { Job, JobCollection } from 'meteor/strigops:job-collection';
 ```
 
 ### Node.js Worker

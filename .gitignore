@@ -2,16 +2,17 @@
 .meteor/local
 .meteor/meteorite
 
-# Build outputs
-dist/
-*.js
-*.js.map
-*.d.ts
-*.d.ts.map
+# Build outputs (for development)
+# Note: dist/ is committed for GitHub installs
+*.js.tmp
+*.d.ts.tmp
 
-# Don't ignore package files
+# Don't ignore these files
 !package.js
 !.eslintrc.json
+!dist/**/*.js
+!dist/**/*.d.ts
+!dist/**/*.map
 
 # Node
 node_modules/

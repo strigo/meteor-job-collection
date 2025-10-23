@@ -1,0 +1,40 @@
+import type { JobType, JobQueueOptions, JobQueueShutdownOptions, WorkerFunction, Callback } from '../types';
+export declare class JobQueue {
+    root: string;
+    type: JobType | JobType[];
+    worker: WorkerFunction;
+    errorCallback: (error: Error) => void;
+    pollInterval: number;
+    concurrency: number;
+    payload: number;
+    prefetch: number;
+    workTimeout?: number;
+    callbackStrict?: boolean;
+    private _workers;
+    private _tasks;
+    private _taskNumber;
+    private _stoppingGetWork?;
+    private _stoppingTasks?;
+    private _interval;
+    private _getWorkOutstanding;
+    paused: boolean;
+    constructor(root: string, type: JobType | JobType[], options: JobQueueOptions | WorkerFunction, worker?: WorkerFunction);
+    private _getWork;
+    private _only_once;
+    private _process;
+    private _stopGetWork;
+    private _waitForTasks;
+    private _failJobs;
+    private _hard;
+    private _stop;
+    private _soft;
+    length(): number;
+    running(): number;
+    idle(): boolean;
+    full(): boolean;
+    pause(): this;
+    resume(): this;
+    trigger(): this;
+    shutdown(options?: JobQueueShutdownOptions | Callback, cb?: Callback): void;
+}
+//# sourceMappingURL=job-queue.d.ts.map
