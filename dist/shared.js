@@ -232,10 +232,19 @@ class JobCollectionBase extends Mongo.Collection {
     _generateMethods() {
         const methodsOut = {};
         const methodPrefix = '_DDPMethod_';
-        for (const [methodName, methodFunc] of Object.entries(this)) {
-            if (typeof methodFunc === 'function' && methodName.startsWith(methodPrefix)) {
-                const baseMethodName = methodName.substring(methodPrefix.length);
-                methodsOut[`${this.root}_${baseMethodName}`] = this._methodWrapper(baseMethodName, methodFunc.bind(this));
+        let obj = this;
+        const propertyNames = new Set();
+        while (obj && obj !== Object.prototype) {
+            Object.getOwnPropertyNames(obj).forEach(name => propertyNames.add(name));
+            obj = Object.getPrototypeOf(obj);
+        }
+        for (const methodName of propertyNames) {
+            if (methodName.startsWith(methodPrefix)) {
+                const methodFunc = this[methodName];
+                if (typeof methodFunc === 'function') {
+                    const baseMethodName = methodName.substring(methodPrefix.length);
+                    methodsOut[`${this.root}_${baseMethodName}`] = this._methodWrapper(baseMethodName, methodFunc.bind(this));
+                }
             }
         }
         return methodsOut;

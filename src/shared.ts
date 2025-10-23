@@ -333,10 +333,23 @@ export class JobCollectionBase extends Mongo.Collection<JobDocument> {
     const methodsOut: Record<string, Function> = {};
     const methodPrefix = '_DDPMethod_';
     
-    for (const [methodName, methodFunc] of Object.entries(this)) {
-      if (typeof methodFunc === 'function' && methodName.startsWith(methodPrefix)) {
-        const baseMethodName = methodName.substring(methodPrefix.length);
-        methodsOut[`${this.root}_${baseMethodName}`] = this._methodWrapper(baseMethodName, methodFunc.bind(this));
+    // Get all property names from the prototype chain
+    let obj = this;
+    const propertyNames = new Set<string>();
+    
+    while (obj && obj !== Object.prototype) {
+      Object.getOwnPropertyNames(obj).forEach(name => propertyNames.add(name));
+      obj = Object.getPrototypeOf(obj);
+    }
+    
+    // Now check each property
+    for (const methodName of propertyNames) {
+      if (methodName.startsWith(methodPrefix)) {
+        const methodFunc = (this as any)[methodName];
+        if (typeof methodFunc === 'function') {
+          const baseMethodName = methodName.substring(methodPrefix.length);
+          methodsOut[`${this.root}_${baseMethodName}`] = this._methodWrapper(baseMethodName, methodFunc.bind(this));
+        }
       }
     }
     
