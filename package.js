@@ -5,7 +5,7 @@
 ###     See included LICENSE file for details.
 ***************************************************************************/
 
-const currentVersion = '2.0.0';
+const currentVersion = '2.0.1';
 
 Package.describe({
   summary: 'Persistent job queue for Meteor - TypeScript, async/await, Meteor 3.x',
