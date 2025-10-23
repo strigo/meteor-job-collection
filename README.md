@@ -1,6 +1,6 @@
 # meteor-job-collection v2.0
 
-[![Atmosphere](https://img.shields.io/badge/meteor-strigo%3Ajob--collection-blue)](https://atmospherejs.com/strigo/job-collection)
+[![Atmosphere](https://img.shields.io/badge/meteor-strigops%3Ajob--collection-blue)](https://atmospherejs.com/strigops/job-collection)
 [![npm](https://img.shields.io/badge/npm-%40strigo%2Fmeteor--job--collection-red)](https://www.npmjs.com/package/@strigo/meteor-job-collection)
 [![GitHub](https://img.shields.io/github/stars/strigo/meteor-job-collection?style=social)](https://github.com/strigo/meteor-job-collection)
 
@@ -44,7 +44,7 @@ await job.done();
 ### For Meteor Apps (Recommended)
 
 ```bash
-meteor add strigo:job-collection
+meteor add strigops:job-collection
 ```
 
 Use this in your Meteor application (server and client code).
@@ -74,7 +74,7 @@ Use this for remote workers that connect to your Meteor app via DDP.
 ### Server Setup
 
 ```javascript
-import { JobCollection } from 'meteor/strigo:job-collection';
+import { JobCollection } from 'meteor/strigops:job-collection';
 
 // Create job collection
 const myJobs = new JobCollection('myJobQueue');
@@ -98,7 +98,7 @@ Meteor.publish('allJobs', function() {
 ### Create and Submit Jobs
 
 ```javascript
-import { Job } from 'meteor/strigo:job-collection';
+import { Job } from 'meteor/strigops:job-collection';
 
 // Create a job with async/await
 async function scheduleEmail() {
@@ -177,7 +177,7 @@ const job = new Job(myJobs, 'processImage', data)
 Full type safety out of the box:
 
 ```typescript
-import { Job, JobCollection } from 'meteor/strigo:job-collection';
+import { Job, JobCollection } from 'meteor/strigops:job-collection';
 
 // Define job data types
 interface EmailJobData {
