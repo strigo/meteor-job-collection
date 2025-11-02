@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobCollection = void 0;
+exports.Job = exports.JobCollection = void 0;
 const shared_1 = require("./shared");
+const job_class_1 = require("./job/job-class");
+Object.defineProperty(exports, "Job", { enumerable: true, get: function () { return job_class_1.Job; } });
 if (!Function.prototype.bind) {
     Function.prototype.bind = function (oThis, ...aArgs) {
         if (typeof this !== 'function') {

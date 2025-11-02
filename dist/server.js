@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JobCollection = void 0;
+exports.Job = exports.JobCollection = void 0;
 const events_1 = require("events");
 const shared_1 = require("./shared");
 const job_class_1 = require("./job/job-class");
+Object.defineProperty(exports, "Job", { enumerable: true, get: function () { return job_class_1.Job; } });
 const validators_1 = require("./utils/validators");
 function userHelper(user, connection) {
     let ret = user ?? '[UNAUTHENTICATED]';

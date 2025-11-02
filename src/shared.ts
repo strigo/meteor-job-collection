@@ -356,12 +356,12 @@ export class JobCollectionBase extends Mongo.Collection<JobDocument> {
     return methodsOut;
   }
 
-  _idsOfDeps(
+  async _idsOfDeps(
     ids: JobId[],
     antecedents: boolean,
     dependents: boolean,
     jobStatuses: readonly JobStatus[] | JobStatus[]
-  ): JobId[] {
+  ): Promise<JobId[]> {
     const dependsIds: JobId[] = [];
     const dependsQuery: any[] = [];
 
@@ -377,19 +377,21 @@ export class JobCollectionBase extends Mongo.Collection<JobDocument> {
 
     if (antecedents) {
       const antsArray: JobId[] = [];
-      this.find(
+      const docs = await this.find(
         { _id: { $in: ids } },
         {
           fields: { depends: 1 },
           transform: null
         }
-      ).forEach((d: any) => {
+      ).fetchAsync();
+      
+      for (const d of docs) {
         for (const i of d.depends) {
           if (!antsArray.includes(i)) {
             antsArray.push(i);
           }
         }
-      });
+      }
 
       if (antsArray.length > 0) {
         dependsQuery.push({
@@ -399,7 +401,7 @@ export class JobCollectionBase extends Mongo.Collection<JobDocument> {
     }
 
     if (dependsQuery.length > 0) {
-      this.find(
+      const docs = await this.find(
         {
           status: { $in: jobStatuses as any },
           $or: dependsQuery
@@ -408,11 +410,13 @@ export class JobCollectionBase extends Mongo.Collection<JobDocument> {
           fields: { _id: 1 },
           transform: null
         }
-      ).forEach((d: any) => {
-        if (!dependsIds.includes(d._id)) {
+      ).fetchAsync();
+      
+      for (const d of docs) {
+        if (d._id && !dependsIds.includes(d._id)) {
           dependsIds.push(d._id);
         }
-      });
+      }
     }
 
     return dependsIds;
@@ -975,7 +979,7 @@ export class JobCollectionBase extends Mongo.Collection<JobDocument> {
       { multi: true }
     );
 
-    const cancelIds = this._idsOfDeps(idsArray, opts.antecedents, opts.dependents, this.jobStatusCancellable);
+    const cancelIds = await this._idsOfDeps(idsArray, opts.antecedents, opts.dependents, this.jobStatusCancellable);
 
     let depsCancelled = false;
     if (cancelIds.length > 0) {
@@ -1047,7 +1051,7 @@ export class JobCollectionBase extends Mongo.Collection<JobDocument> {
 
     const num = await this.updateAsync(query, mods, { multi: true });
 
-    const restartIds = this._idsOfDeps(idsArray, opts.antecedents!, opts.dependents!, this.jobStatusRestartable);
+    const restartIds = await this._idsOfDeps(idsArray, opts.antecedents!, opts.dependents!, this.jobStatusRestartable);
 
     let depsRestarted = false;
     if (restartIds.length > 0) {

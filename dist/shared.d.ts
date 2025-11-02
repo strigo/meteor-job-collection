@@ -86,7 +86,7 @@ export declare class JobCollectionBase extends Mongo.Collection<JobDocument> {
     createJob(type: any, data?: any): Job;
     _methodWrapper(method: string, func: Function): Function;
     _generateMethods(): Record<string, Function>;
-    _idsOfDeps(ids: JobId[], antecedents: boolean, dependents: boolean, jobStatuses: readonly JobStatus[] | JobStatus[]): JobId[];
+    _idsOfDeps(ids: JobId[], antecedents: boolean, dependents: boolean, jobStatuses: readonly JobStatus[] | JobStatus[]): Promise<JobId[]>;
     _rerun_job(doc: JobDocument, repeats?: number, wait?: number | LaterJSSchedule, repeatUntil?: Date): Promise<JobId | null>;
     _checkDeps(job: JobDocument, dryRun?: boolean): Promise<any>;
     _DDPMethod_startJobServer(options?: any): Promise<boolean>;

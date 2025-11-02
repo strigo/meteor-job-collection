@@ -396,6 +396,7 @@ class JobCollectionServer extends JobCollectionBase {
 
 // Export with consistent name
 export { JobCollectionServer as JobCollection };
+export { Job };
 
 // Share with the rest of the package
 if (typeof share !== 'undefined') {

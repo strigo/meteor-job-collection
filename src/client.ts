@@ -5,6 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 import { JobCollectionBase } from './shared';
+import { Job } from './job/job-class';
 
 declare const share: any;
 
@@ -74,6 +75,7 @@ class JobCollectionClient extends JobCollectionBase {
 
 // Export with consistent name
 export { JobCollectionClient as JobCollection };
+export { Job };
 
 // Share with the rest of the package
 if (typeof share !== 'undefined') {

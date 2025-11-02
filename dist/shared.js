@@ -249,7 +249,7 @@ class JobCollectionBase extends Mongo.Collection {
         }
         return methodsOut;
     }
-    _idsOfDeps(ids, antecedents, dependents, jobStatuses) {
+    async _idsOfDeps(ids, antecedents, dependents, jobStatuses) {
         const dependsIds = [];
         const dependsQuery = [];
         if (dependents) {
@@ -263,16 +263,17 @@ class JobCollectionBase extends Mongo.Collection {
         }
         if (antecedents) {
             const antsArray = [];
-            this.find({ _id: { $in: ids } }, {
+            const docs = await this.find({ _id: { $in: ids } }, {
                 fields: { depends: 1 },
                 transform: null
-            }).forEach((d) => {
+            }).fetchAsync();
+            for (const d of docs) {
                 for (const i of d.depends) {
                     if (!antsArray.includes(i)) {
                         antsArray.push(i);
                     }
                 }
-            });
+            }
             if (antsArray.length > 0) {
                 dependsQuery.push({
                     _id: { $in: antsArray }
@@ -280,17 +281,18 @@ class JobCollectionBase extends Mongo.Collection {
             }
         }
         if (dependsQuery.length > 0) {
-            this.find({
+            const docs = await this.find({
                 status: { $in: jobStatuses },
                 $or: dependsQuery
             }, {
                 fields: { _id: 1 },
                 transform: null
-            }).forEach((d) => {
-                if (!dependsIds.includes(d._id)) {
+            }).fetchAsync();
+            for (const d of docs) {
+                if (d._id && !dependsIds.includes(d._id)) {
                     dependsIds.push(d._id);
                 }
-            });
+            }
         }
         return dependsIds;
     }
@@ -727,7 +729,7 @@ class JobCollectionBase extends Mongo.Collection {
             _id: { $in: idsArray },
             status: { $in: this.jobStatusCancellable }
         }, mods, { multi: true });
-        const cancelIds = this._idsOfDeps(idsArray, opts.antecedents, opts.dependents, this.jobStatusCancellable);
+        const cancelIds = await this._idsOfDeps(idsArray, opts.antecedents, opts.dependents, this.jobStatusCancellable);
         let depsCancelled = false;
         if (cancelIds.length > 0) {
             depsCancelled = await this._DDPMethod_jobCancel(cancelIds, opts);
@@ -784,7 +786,7 @@ class JobCollectionBase extends Mongo.Collection {
             mods.$set.retryUntil = opts.until;
         }
         const num = await this.updateAsync(query, mods, { multi: true });
-        const restartIds = this._idsOfDeps(idsArray, opts.antecedents, opts.dependents, this.jobStatusRestartable);
+        const restartIds = await this._idsOfDeps(idsArray, opts.antecedents, opts.dependents, this.jobStatusRestartable);
         let depsRestarted = false;
         if (restartIds.length > 0) {
             depsRestarted = await this._DDPMethod_jobRestart(restartIds, opts);
