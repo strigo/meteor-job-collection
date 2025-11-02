@@ -1,6 +1,6 @@
 {
   "name": "@strigo/meteor-job-collection",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "A persistent and reactive job queue for Meteor, supporting distributed workers that can run anywhere - modernized with TypeScript and async/await",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
